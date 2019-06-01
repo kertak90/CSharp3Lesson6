@@ -1,0 +1,2 @@
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\MatrixCalculate\obj\Debug\MatrixCalculate.csprojAssemblyReference.cache
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\MatrixCalculate\obj\Debug\MatrixCalculate.csproj.CoreCompileInputs.cache
