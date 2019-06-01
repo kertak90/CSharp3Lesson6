@@ -9,60 +9,93 @@ using System.Threading;
 namespace MultiThread
 {
 
-//   1. Написать приложение, считающее в раздельных потоках: 
-//факториал числа N, которое вводится с клавиатуры;
-//    сумму целых чисел до N.
-//   2. * Написать приложение, выполняющее парсинг CSV-файла произвольной структуры и сохраняющего его в обычный txt-файл.Все операции проходят в потоках.CSV-файл заведомо имеет большой объем.
-
+//1. Даны 2 двумерных матрицы.Размерность 100х100 каждая. Напишите приложение, производящее параллельное умножение матриц. 
+//    Матрицы заполняются случайными целыми числами от 0 до10.
+//2. *В некой директории лежат файлы.По структуре они содержат 3 числа, разделенные пробелами. Первое число — целое, обозначает действие, 
+//    1 — умножение и 2 — деление, остальные два — числа с плавающей точкой. Написать многопоточное приложение, выполняющее вышеуказанные 
+//    действия над числами и сохраняющее результат в файл result.dat.Количество файлов в директории заведомо много.
 
     class Program
     {
-        static void Main(string[] args)
+        static async void Main(string[] args)
         {
-            List<Thread> ThList = new List<Thread>();
-            Thread th1 = new Thread(Factorial);
-            ThList.Add(th1);
-            Thread th2 = new Thread(Sum);
-            ThList.Add(th2);
-
-            Console.WriteLine("Введите целое число: ");
-            int number = Convert.ToInt16(Console.ReadLine());
-
-            foreach (var item in ThList)
-            {
-                item.Start(number);
-            }
+            Matrix A = new Matrix(2, 2);
+            Matrix B = new Matrix(2, 2);
+            Matrix C = await A.multiplyMatrix(B);
+            Console.WriteLine(A.ToString());
+            Console.WriteLine(B.ToString());
+            Console.WriteLine(C.ToString());
             Console.ReadLine();
-        }
+        }        
+    }   
 
-        static void Factorial(object o)
+    public class Matrix
+    {
+        private int _sizeX;
+        private int _sizeY;
+        public int[,] matrix;
+
+        public Matrix(int sizeX, int sizeY)
         {
-            int n = (int)o;
-            int sum = 1;
-
-            for(int i=1;i<=n;i++)
-            {
-                Thread.Sleep(100);
-                sum *= i;
-                Console.WriteLine($"{i}; factorial:{sum}; Thread:{Thread.CurrentThread.ManagedThreadId}");
-            }
-            Console.WriteLine($"Факториал числа {n} равен: {sum}");
+            _sizeX = sizeX;
+            _sizeY = sizeY;
+            matrix = new int[sizeX, sizeY];
+            initializeMatrix();
         }
 
-        static void Sum(object o)
-        {            
-            int n = (int)o;
+        private void initializeMatrix()
+        {
+            Random rnd = new Random();
+            for(int i=0; i<_sizeX; i++)
+            {
+                for(int j=0; j<_sizeY; j++)
+                {
+                    matrix[i, j] = rnd.Next(0, 11);
+                }
+            }
+        }
+
+        public async Task<Matrix> multiplyMatrix (Matrix B)
+        {
+            if (this._sizeX != B._sizeY) return null;
+
+            Matrix newMatrix = new Matrix(this._sizeY, B._sizeX);
             int sum = 0;
-            for (int i = 1; i <= n; i++)
+            for(int i=0;i<_sizeX;i++)
             {
-                Thread.Sleep(100);
-                sum += i;
-                Console.WriteLine($"{i}; sum:{sum}; Thread:{Thread.CurrentThread.ManagedThreadId}");
+                for(int j=0;j<_sizeY;j++)
+                {
+                    Matrix tempMatrixA = this;
+                    Matrix tempMatrixB = B;
+                    sum = await getMatrixElement(tempMatrixA, tempMatrixB, i, j);
+                    newMatrix.matrix[i, j] = sum;
+                }
             }
-            Console.WriteLine($"Сумма чисел {n} равны: {sum}");
+            return newMatrix;
         }
-        
-    }
 
-    
+        public async Task<int> getMatrixElement(Matrix A, Matrix B, int x, int y)
+        {
+            int sum = 0;
+            for(int i=0; i<_sizeX; i++)
+            {
+                sum += A.matrix[x, i] * B.matrix[i, y];
+            }
+            return sum;
+        }
+
+        public override string ToString()
+        {
+            var str = "";
+            for(int i=0;i<_sizeX;i++)
+            {
+                for(int j=0;j<_sizeY;j++)
+                {
+                    str += this.matrix[i, j] + " ";
+                }
+                str += "\n";
+            }
+            return str;
+        }
+    }
 }

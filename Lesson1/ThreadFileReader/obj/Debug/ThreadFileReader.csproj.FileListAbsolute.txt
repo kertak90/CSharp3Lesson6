@@ -1,0 +1,7 @@
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\bin\Debug\ThreadFileReader.exe.config
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\bin\Debug\ThreadFileReader.exe
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\bin\Debug\ThreadFileReader.pdb
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\obj\Debug\ThreadFileReader.csprojAssemblyReference.cache
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\obj\Debug\ThreadFileReader.csproj.CoreCompileInputs.cache
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\obj\Debug\ThreadFileReader.exe
+D:\C# projects\C# 3 обучение\git-CSharp3Lesson6\Lesson1\ThreadFileReader\obj\Debug\ThreadFileReader.pdb

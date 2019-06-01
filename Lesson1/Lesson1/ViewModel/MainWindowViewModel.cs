@@ -90,6 +90,27 @@ namespace Lesson1.ViewModel
             }
         }
 
+        //private readonly IRecepientsData _RecepientsData;
+        //private readonly IRecipientsListData recipientsListData;
+        //private readonly ISendersData sendersData;
+        //private readonly IMailMessagesData mailMessagesData;
+        //private readonly IMailLists mailLists;
+        //private readonly IServerData serverData;
+        //private readonly ISchedulerTasksData schedulerTasksData;
+
+        public ObservableCollection<RecipientsList> RecipientsLists { get; } = new ObservableCollection<RecipientsList>();
+
+        public ObservableCollection<Sender> Senders { get; } = new ObservableCollection<Sender>();
+
+        public ObservableCollection<MailMessage> MailMessages { get; } = new ObservableCollection<MailMessage>();
+
+        public ObservableCollection<MailList> MailsLists { get; } = new ObservableCollection<MailList>();
+
+        public ObservableCollection<Server> Servers { get; } = new ObservableCollection<Server>();
+
+        public ObservableCollection<SchedulerTask> SchedulerTasks { get; } = new ObservableCollection<SchedulerTask>();
+
+
         #region Commands
         public ICommand RefreshDataCommand { get; }
         public ICommand WriteRecipientDataCommand { get; }
@@ -113,6 +134,7 @@ namespace Lesson1.ViewModel
             this.mailLists = mailLists;
             this.serverData = serverData;
             this.schedulerTasksData = schedulerTasksData;
+
             RefreshDataCommand = new RelayCommand(OnRefreshDataCommandExecuted, CanrefreshDataCommandExecute);
             WriteRecipientDataCommand = new RelayCommand<Recipient>(OnWriteRecepientDataCommandExecute, CanWriteRecipientDataCommandExecute);
             CreateNewRecepientCommand = new RelayCommand(OnCreateNewRecepientCommandExecute, CanCreateNewRecepientCommandExecute);
@@ -143,9 +165,31 @@ namespace Lesson1.ViewModel
         private void OnRefreshDataCommandExecuted() => LoadData();
 
         private void LoadData()
-        {            
-            var recipients = _RecepientsData.GetAll();
-            Recipients = new ObservableCollection<Recipient>(recipients);
+        {
+            //var recipients = _RecepientsData.GetAll();
+            //Recipients = new ObservableCollection<Recipient>(recipients);
+
+            void LoadData<T>(ObservableCollection<T> collection, IDataService<T> service)
+            {
+                collection.Clear();
+                foreach(var item in service.GetAll())
+                {
+                    collection.Add(item);
+                }
+            }
+
+            LoadData(Recipients, _RecepientsData);
+            LoadData(RecipientsLists, recipientsListData);
+            LoadData(Senders, sendersData);
+            LoadData(Servers, serverData);
+            LoadData(MailMessages, mailMessagesData);
+            LoadData(MailsLists, mailLists);
+            LoadData(SchedulerTasks, schedulerTasksData);
+
+            //var recipients = Recipients;
+            //recipients.Clear();
+            //foreach (var recipient in _RecepientsData.GetAll())
+            //    recipients.Add(recipient);
         }
     }
 }
