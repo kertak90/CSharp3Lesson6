@@ -1,18 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace MultiThread
+namespace MatrixCalculate
 {
-
-    //1. Даны 2 двумерных матрицы.Размерность 100х100 каждая. Напишите приложение, производящее параллельное умножение матриц. 
-    //    Матрицы заполняются случайными целыми числами от 0 до10.
-    //   действия над числами и сохраняющее результат в файл result.dat.Количество файлов в директории заведомо много.
-
     class Program
     {
         static async void Main(string[] args)
